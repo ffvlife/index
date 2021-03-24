@@ -1,1 +1,63 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('(4($){$.m=4(x){5 A=K J("(^|&)"+x+"=([^&]*)(&|$)");5 r=M.D.F.X(1).W(A);u(r!=C)y O(r[2]);y C}})(Q);$(V).L(4(){R 9=$.m(\'c\')||\'P\';$("."+9).N(\'S\');$.T(\'U\'+9+\'.E\',4(){5 b=o.q;l(b,9);$(".G").H(4(){v();l(b,9)})});4 v(){$(".n").I()}4 p(){$(".n").Y()}4 l(b,9){5 h=[];5 k=[];1c(h.q<7){5 f=w.1f(w.1g()*b);5 i=k.1e(f);u(i>=0){1d}5 g=o[f];k.t(f);h.t(g)}5 d="";$.1k(h,4(1i,s){d+=\'<8 a="z"><8 a="e-j-6 e-j-B-3">\';d+=\'<g 1h="1j://12.13.14/\'+9+\'/Z/10/\'+s+\'" a="g-11 15-19" >\';d+=\'</8></8><8 a="z"><8 a="e-j-6 e-j-B-3"><1a a="1b-16"></8></8>\'});$(".17").18(d);p()}});',62,83,'||||function|let|||div|cat|class|num||html|col|idx|img|result||md|tmp|getMore|getUrlParam|loading|images|hideLoading|length|||push|if|showLoading|Math|name|return|row|reg|offset|null|location|js|search|more|click|show|RegExp|new|ready|window|addClass|unescape|ffvlife|jQuery|var|active|getScript|images_|document|match|substr|hide|image|upload|responsive|res|cloudinary|com|center|divider|contents|append|block|hr|featurette|while|continue|indexOf|ceil|random|src|index|https|each'.split('|'),0,{}))
+(function($) {
+    $.getUrlParam = function(name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null
+    }
+})(jQuery);
+$(document).ready(function() {
+    var cat = $.getUrlParam('c') || 'ffvlife';
+    $("." + cat).addClass('active');
+    $.getScript('images_' + cat + '.js', function() {
+        let num = images.length;
+        getMore(num, cat);
+        $(".more").click(function() {
+            showLoading();
+            getMore(num, cat)
+        })
+      $(window).scroll(function(){
+         var $this =$(this),
+         viewH =$(this).height(),//可见高度
+         contentH =$(this).get(0).scrollHeight,//内容高度
+         scrollTop =$(this).scrollTop();//滚动高度
+        //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
+        if(scrollTop/(contentH -viewH)>=0.99){ //到达底部100px时,加载新内容
+        // 这里加载数据..
+          showLoading();
+            getMore(num, cat)
+        }
+     });
+    });
+
+    function showLoading() {
+        $(".loading").show()
+    }
+
+    function hideLoading() {
+        $(".loading").hide()
+    }
+
+    function getMore(num, cat) {
+        let result = [];
+        let tmp = [];
+        while (result.length < 7) {
+            let idx = Math.ceil(Math.random() * num);
+            let i = tmp.indexOf(idx);
+            if (i >= 0) {
+                continue
+            }
+            let img = images[idx];
+            tmp.push(idx);
+            result.push(img)
+        }
+        let html = "";
+        $.each(result, function(index, s) {
+            html += '<div class="row"><div class="col-md-6 col-md-offset-3">';
+            html += '<img src="https://res.cloudinary.com/' + cat + '/image/upload/' + s + '" class="img-responsive center-block" >';
+            html += '</div></div><div class="row"><div class="col-md-6 col-md-offset-3"><hr class="featurette-divider"></div></div>'
+        });
+        $(".contents").append(html);
+        hideLoading()
+    }
+});
