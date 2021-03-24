@@ -19,8 +19,6 @@ $(document).ready(function() {
       $(window).scroll(function(){
        var scrollT = document.body.scrollTop || document.documentElement.scrollTop //兼容处理
        currtTop = document.documentElement.clientHeight + scrollT
-       console.log(document.body.scrollHeight);
-       console.log(document.documentElement.clientHeight)
        if(currtTop >= document.body.scrollHeight){
         showLoading();
         getMore(num, cat)
