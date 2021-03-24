@@ -17,16 +17,14 @@ $(document).ready(function() {
             getMore(num, cat)
         })
       $(window).scroll(function(){
-         var $this =$(this),
-         viewH =$(this).height(),//可见高度
-         contentH =$(this).get(0).scrollHeight,//内容高度
-         scrollTop =$(this).scrollTop();//滚动高度
-        //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
-        if(scrollTop/(contentH -viewH)>=0.99){ //到达底部100px时,加载新内容
-        // 这里加载数据..
-          showLoading();
-            getMore(num, cat)
-        }
+       var scrollT = document.body.scrollTop || document.documentElement.scrollTop //兼容处理
+       currtTop = document.documentElement.clientHeight + scrollT
+       console.log(document.body.scrollHeight);
+       console.log(document.documentElement.clientHeight)
+       if(currtTop >= document.body.scrollHeight){
+        showLoading();
+        getMore(num, cat)
+       }
      });
     });
 
